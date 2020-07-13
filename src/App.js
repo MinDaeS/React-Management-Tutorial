@@ -2,15 +2,18 @@ import React, { Component } from "react";
 import Customer from "./components/Customer";
 import "./App.css";
 
-/*material-ui Start*/
+/*material-ui Start */
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-/*material-ui End*/
+/*material-ui End */
 
+/* CSS Start */
 import { withStyles } from "@material-ui/core/styles";
+/* CSS End */
 
 const styles = (theme) => ({
   root: {
@@ -52,9 +55,10 @@ const customers = [
 
 class App extends Component {
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        <Table>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
           <TableRow>
             <TableCell>번호</TableCell>
             <TableCell>이미지</TableCell>
@@ -79,8 +83,8 @@ class App extends Component {
             })}
           </TableBody>
         </Table>
-      </div>
+      </Paper>
     );
   }
 }
-export default App;
+export default withStyles(styles)(App);
