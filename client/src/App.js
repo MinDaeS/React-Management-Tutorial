@@ -26,34 +26,26 @@ const styles = (theme) => ({
   },
 });
 
-const customers = [
-  {
-    id: 1,
-    image: "https://placeimg.com/64/64/1",
-    name: "민대연",
-    birthday: "901228",
-    gender: "남자",
-    job: "개발자",
-  },
-  {
-    id: 2,
-    image: "https://placeimg.com/64/64/2",
-    name: "홍길동",
-    birthday: "940722",
-    gender: "남자",
-    job: "개발자",
-  },
-  {
-    id: 3,
-    image: "https://placeimg.com/64/64/3",
-    name: "이순신",
-    birthday: "920202",
-    gender: "남자",
-    job: "개발자",
-  },
-];
-
 class App extends Component {
+  //props - 변경될 수 데이터 처리
+  //state - component 내에서 변경될 수 있는 데이터 처리
+  state = {
+    customers: "",
+  };
+
+  //데이터를 받아오는 작업(lib) - 생명주기가 존재함
+  componentDidMount() {
+    this.callApi()
+      .then((res) => this.setState({ customers: res }))
+      .catch((err) => console.log(err));
+  }
+
+  callApi = async () => {
+    const response = await fetch("/api/customers");
+    const body = await response.json();
+    return body;
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -68,19 +60,21 @@ class App extends Component {
             <TableCell>직업</TableCell>
           </TableRow>
           <TableBody>
-            {customers.map((c) => {
-              return (
-                <Customer
-                  key={c.id}
-                  id={c.id}
-                  image={c.image}
-                  name={c.name}
-                  birthday={c.birthday}
-                  gender={c.gender}
-                  job={c.job}
-                />
-              );
-            })}
+            {this.state.customers
+              ? this.state.customers.map((c) => {
+                  return (
+                    <Customer
+                      key={c.id}
+                      id={c.id}
+                      image={c.image}
+                      name={c.name}
+                      birthday={c.birthday}
+                      gender={c.gender}
+                      job={c.job}
+                    />
+                  );
+                })
+              : ""}
           </TableBody>
         </Table>
       </Paper>
